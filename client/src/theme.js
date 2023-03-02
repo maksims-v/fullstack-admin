@@ -1,8 +1,94 @@
+import { createTheme } from '@mui/material/styles';
+
+// black: {
+//    100: "#d3d3d4",
+//    200: "#a8a8a8",
+//    300: "#7c7c7d",
+//    400: "#515151",
+//    500: "#252526",
+//    600: "#1e1e1e",
+//    700: "#161617",
+//    800: "#0f0f0f",
+//    900: "#070708"
+// },
+
+// black: {
+//    100: "#d8d8d8",
+//    200: "#b1b1b1",
+//    300: "#8a8a8a",
+//    400: "#636363",
+//    500: "#3c3c3c",
+//    600: "#303030",
+//    700: "#242424",
+//    800: "#181818",
+//    900: "#0c0c0c"
+// },
+
+// black: {
+//    100: "#cdd7df",
+//    200: "#9bb0bf",
+//    300: "#68889e",
+//    400: "#36617e",
+//    500: "#04395e",
+//    600: "#032e4b",
+//    700: "#022238",
+//    800: "#021726",
+//    900: "#010b13"
+// },
+
+// blue: {
+//    100: "#cce2f7",
+//    200: "#99c6ef",
+//    300: "#66a9e6",
+//    400: "#338dde",
+//    500: "#0070d6",
+//    600: "#005aab",
+//    700: "#004380",
+//    800: "#002d56",
+//    900: "#00162b"
+// },
+
+// gray: {
+//    100: "#eef5fc",
+//    200: "#dceaf8",
+//    300: "#cbe0f5",
+//    400: "#b9d5f1",
+//    500: "#a8cbee",
+//    600: "#86a2be",
+//    700: "#657a8f",
+//    800: "#43515f",
+//    900: "#222930"
+// },
+
+// black: {
+//    100: "#d0d5d5",
+//    200: "#a2acaa",
+//    300: "#738280",
+//    400: "#455955",
+//    500: "#162f2b",
+//    600: "#122622",
+//    700: "#0d1c1a",
+//    800: "#091311",
+//    900: "#040909"
+// },
+
+// indigo: {
+//    100: "#d6e1df",
+//    200: "#adc3bf",
+//    300: "#84a49f",
+//    400: "#5b867f",
+//    500: "#32685f",
+//    600: "#28534c",
+//    700: "#1e3e39",
+//    800: "#142a26",
+//    900: "#0a1513"
+// },
+
 export const tokensDark = {
   grey: {
-    0: '#ffffff', // manually adjusted
-    10: '#f6f6f6', // manually adjusted
-    50: '#f0f0f0', // manually adjusted
+    0: '#ffffff',
+    10: '#f6f6f6',
+    50: '#f0f0f0',
     100: '#e0e0e0',
     200: '#c2c2c2',
     300: '#a3a3a3',
@@ -12,127 +98,78 @@ export const tokensDark = {
     700: '#3d3d3d',
     800: '#292929',
     900: '#141414',
-    1000: '#000000', // manually adjusted
+    1000: '#000000',
   },
   primary: {
-    // blue
-    100: '#d3d4de',
-    200: '#a6a9be',
-    300: '#7a7f9d',
-    400: '#4d547d',
-    500: '#21295c',
-    600: '#191F45', // manually adjusted
-    700: '#141937',
-    800: '#0d1025',
-    900: '#070812',
+    100: '#d3d3d4',
+    200: '#a8a8a8',
+    300: '#7c7c7d',
+    400: '#515151',
+    500: '#252526',
+    600: '#1e1e1e',
+    700: '#161617',
+    800: '#0f0f0f',
+    900: '#070708',
   },
   secondary: {
-    // yellow
-    50: '#f0f0f0', // manually adjusted
-    100: '#fff6e0',
-    200: '#ffedc2',
-    300: '#ffe3a3',
-    400: '#ffda85',
-    500: '#ffd166',
-    600: '#cca752',
-    700: '#997d3d',
-    800: '#665429',
-    900: '#332a14',
+    100: '#d6e1df',
+    200: '#adc3bf',
+    300: '#84a49f',
+    400: '#5b867f',
+    500: '#32685f',
+    600: '#28534c',
+    700: '#1e3e39',
+    800: '#142a26',
+    900: '#0a1513',
   },
 };
 
-// function that reverses the color palette
-function reverseTokens(tokensDark) {
-  const reversedTokens = {};
-  Object.entries(tokensDark).forEach(([key, val]) => {
-    const keys = Object.keys(val);
-    const values = Object.values(val);
-    const length = keys.length;
-    const reversedObj = {};
-    for (let i = 0; i < length; i++) {
-      reversedObj[keys[i]] = values[length - i - 1];
-    }
-    reversedTokens[key] = reversedObj;
-  });
-  return reversedTokens;
-}
-export const tokensLight = reverseTokens(tokensDark);
-
-// mui theme settings
-export const themeSettings = (mode) => {
-  return {
-    palette: {
-      mode: mode,
-      ...(mode === 'dark'
-        ? {
-            // palette values for dark mode
-            primary: {
-              ...tokensDark.primary,
-              main: tokensDark.primary[400],
-              light: tokensDark.primary[400],
-            },
-            secondary: {
-              ...tokensDark.secondary,
-              main: tokensDark.secondary[300],
-            },
-            neutral: {
-              ...tokensDark.grey,
-              main: tokensDark.grey[500],
-            },
-            background: {
-              default: tokensDark.primary[600],
-              alt: tokensDark.primary[500],
-            },
-          }
-        : {
-            // palette values for light mode
-            primary: {
-              ...tokensLight.primary,
-              main: tokensDark.grey[50],
-              light: tokensDark.grey[100],
-            },
-            secondary: {
-              ...tokensLight.secondary,
-              main: tokensDark.secondary[600],
-              light: tokensDark.secondary[700],
-            },
-            neutral: {
-              ...tokensLight.grey,
-              main: tokensDark.grey[500],
-            },
-            background: {
-              default: tokensDark.grey[0],
-              alt: tokensDark.grey[50],
-            },
-          }),
+export const theme = createTheme({
+  palette: {
+    primary: {
+      ...tokensDark.primary,
+      main: tokensDark.primary[400],
+      light: tokensDark.primary[400],
     },
-    typography: {
+    secondary: {
+      ...tokensDark.secondary,
+      main: tokensDark.secondary[300],
+    },
+    neutral: {
+      ...tokensDark.grey,
+      main: tokensDark.grey[500],
+    },
+    background: {
+      default: tokensDark.primary[600],
+      alt: tokensDark.primary[500],
+    },
+  },
+  typography: {
+    fontFamily: ['Inter', 'sans-serif'].join(','),
+    fontSize: 12,
+    h1: {
       fontFamily: ['Inter', 'sans-serif'].join(','),
-      fontSize: 12,
-      h1: {
-        fontFamily: ['Inter', 'sans-serif'].join(','),
-        fontSize: 40,
-      },
-      h2: {
-        fontFamily: ['Inter', 'sans-serif'].join(','),
-        fontSize: 32,
-      },
-      h3: {
-        fontFamily: ['Inter', 'sans-serif'].join(','),
-        fontSize: 24,
-      },
-      h4: {
-        fontFamily: ['Inter', 'sans-serif'].join(','),
-        fontSize: 20,
-      },
-      h5: {
-        fontFamily: ['Inter', 'sans-serif'].join(','),
-        fontSize: 16,
-      },
-      h6: {
-        fontFamily: ['Inter', 'sans-serif'].join(','),
-        fontSize: 14,
-      },
+      fontSize: 40,
     },
-  };
-};
+    h2: {
+      fontFamily: ['Inter', 'sans-serif'].join(','),
+      fontSize: 32,
+    },
+    h3: {
+      fontFamily: ['Inter', 'sans-serif'].join(','),
+      fontSize: 24,
+    },
+    h4: {
+      fontFamily: ['Inter', 'sans-serif'].join(','),
+      fontSize: 20,
+    },
+    h5: {
+      fontFamily: ['Inter', 'sans-serif'].join(','),
+      fontSize: 16,
+    },
+    h6: {
+      fontFamily: ['Inter', 'sans-serif'].join(','),
+      fontSize: 14,
+    },
+  },
+});

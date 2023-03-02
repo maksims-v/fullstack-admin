@@ -8,6 +8,7 @@ import BreakdownChart from 'components/BreakdownChart';
 import OverviewChart from 'components/OverviewChart';
 import { useGetDashboardQuery } from 'state/api';
 import StatBox from 'components/StatBox';
+import MyResponsiveTreeMap from 'components/TreeMap';
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -142,6 +143,7 @@ const Dashboard = () => {
             },
           }}>
           <DataGrid
+            sx={{ color: 'white' }}
             loading={isLoading || !data}
             getRowId={(row) => row._id}
             rows={(data && data.transactions) || []}
@@ -157,7 +159,7 @@ const Dashboard = () => {
           <Typography variant="h6" sx={{ color: theme.palette.secondary[100] }}>
             Sales By Category
           </Typography>
-          <BreakdownChart isDashboard={true} />
+          <MyResponsiveTreeMap isDashboard={true} />
           <Typography p="0 0.6rem" fontSize="0.8rem" sx={{ color: theme.palette.secondary[200] }}>
             Breakdown of real states and information via category for revenue made for this year and
             total sales.

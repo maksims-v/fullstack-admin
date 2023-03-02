@@ -1,8 +1,5 @@
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import { createTheme } from '@mui/material/styles';
-import { useMemo } from 'react';
-import { useSelector } from 'react-redux';
-import { themeSettings } from 'theme';
+import { theme } from 'theme';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Dashboard from 'scenes/dashboard';
 import Products from 'scenes/products';
@@ -18,9 +15,6 @@ import Admin from 'scenes/admin';
 import Performance from 'scenes/performance';
 
 function App() {
-  const mode = useSelector((state) => state.global.mode);
-  const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
-
   return (
     <div className="app">
       <BrowserRouter>

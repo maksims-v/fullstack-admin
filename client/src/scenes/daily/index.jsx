@@ -31,7 +31,6 @@ const Daily = () => {
       const dateFormatted = new Date(date);
       if (dateFormatted >= startDate && dateFormatted <= endDate) {
         const splitDate = date.substring(date.indexOf('-') + 1);
-
         totalSalesLine.data = [...totalSalesLine.data, { x: splitDate, y: totalSales }];
         totalUnitsLine.data = [...totalUnitsLine.data, { x: splitDate, y: totalUnits }];
       }

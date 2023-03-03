@@ -1,12 +1,6 @@
 import React, { useState } from 'react';
-import {
-  Menu as MenuIcon,
-  Search,
-  SettingsOutlined,
-  ArrowDropDownOutlined,
-} from '@mui/icons-material';
+import { Menu as MenuIcon, Search, ArrowDropDownOutlined } from '@mui/icons-material';
 import FlexBetween from 'components/FlexBetween';
-import profileImage from 'assets/profile.jpg';
 import {
   AppBar,
   Toolbar,
@@ -22,8 +16,6 @@ import {
 
 const NavBar = ({ isSidebarOpen, setIsSidebarOpen, user }) => {
   const theme = useTheme();
-
-  console.log(theme.palette.primary[100]);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const isOpen = Boolean(anchorEl);
@@ -54,9 +46,6 @@ const NavBar = ({ isSidebarOpen, setIsSidebarOpen, user }) => {
           </FlexBetween>
         </FlexBetween>
         <FlexBetween gap="1.5rem">
-          <IconButton>
-            <SettingsOutlined sx={{ fontSize: '25px' }} />
-          </IconButton>
           <FlexBetween>
             <Button
               onClick={handleClick}
@@ -67,15 +56,6 @@ const NavBar = ({ isSidebarOpen, setIsSidebarOpen, user }) => {
                 textTransform: 'none',
                 gap: '1rem',
               }}>
-              <Box
-                component="img"
-                alt="profile"
-                src={profileImage}
-                height="32px"
-                width="32px"
-                borderRadius="50%"
-                sx={{ objectFit: 'cover' }}
-              />
               <Box textAlign="left">
                 <Typography
                   fontWeight="bold"

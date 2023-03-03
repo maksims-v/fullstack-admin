@@ -4,6 +4,7 @@ import { Box, Typography, useTheme } from '@mui/material';
 import { useGetSalesQuery } from 'state/api';
 
 const BreakdownChart = ({ isDashboard = false }) => {
+  console.log(isDashboard);
   const { data, isLoading } = useGetSalesQuery();
   const theme = useTheme();
 
@@ -60,14 +61,13 @@ const BreakdownChart = ({ isDashboard = false }) => {
             },
           },
         }}
-        colors={{ datum: 'data.color' }}
         margin={
           isDashboard
             ? { top: 40, right: 80, bottom: 100, left: 50 }
             : { top: 40, right: 80, bottom: 80, left: 80 }
         }
         sortByValue={true}
-        innerRadius={0.45}
+        innerRadius={0.4}
         activeOuterRadiusOffset={8}
         borderWidth={1}
         borderColor={{
@@ -102,7 +102,7 @@ const BreakdownChart = ({ isDashboard = false }) => {
               {
                 on: 'hover',
                 style: {
-                  itemTextColor: theme.palette.primary[500],
+                  itemTextColor: theme.palette.primary[100],
                 },
               },
             ],

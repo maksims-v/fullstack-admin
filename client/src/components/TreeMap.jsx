@@ -2,11 +2,9 @@ import { ResponsiveTreeMap } from '@nivo/treemap';
 import { useGetSalesQuery } from 'state/api';
 import { Box } from '@mui/material';
 
-const MyResponsiveTreeMap = ({ isDashboard = false }) => {
+const MyResponsiveTreeMap = () => {
   const { data, isLoading } = useGetSalesQuery();
   if (!data || isLoading) return 'Loading...';
-
-  console.log(data.salesByCategory);
 
   const formattedData = {
     name: 'Total',
@@ -23,12 +21,7 @@ const MyResponsiveTreeMap = ({ isDashboard = false }) => {
   };
 
   return (
-    <Box
-      height={isDashboard ? '400px' : '100%'}
-      width={undefined}
-      minHeight={isDashboard ? '325px' : undefined}
-      minWidth={isDashboard ? '325px' : undefined}
-      position="relative">
+    <Box height="400px" minHeight="325px" minWidth="325px" position="relative">
       <ResponsiveTreeMap
         data={formattedData}
         identity="name"

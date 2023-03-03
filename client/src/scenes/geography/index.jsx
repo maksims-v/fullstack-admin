@@ -9,8 +9,10 @@ const Geography = () => {
   const theme = useTheme();
   const { data } = useGetGeographyQuery();
 
+  console.log(data);
+
   return (
-    <Box m="1.5rem 2.5rem">
+    <Box m="1.5rem 1rem">
       <Header title="GEOGRAPHY" subtitle="Find where your users are located." />
       <Box
         mt="40px"

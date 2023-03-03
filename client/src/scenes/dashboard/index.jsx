@@ -4,7 +4,6 @@ import Header from 'components/Header';
 import { DownloadOutlined, Email, PointOfSale, PersonAdd, Traffic } from '@mui/icons-material';
 import { Box, Button, Typography, useTheme, useMediaQuery } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import BreakdownChart from 'components/BreakdownChart';
 import OverviewChart from 'components/OverviewChart';
 import { useGetDashboardQuery } from 'state/api';
 import StatBox from 'components/StatBox';
@@ -13,6 +12,8 @@ import MyResponsiveTreeMap from 'components/TreeMap';
 const Dashboard = () => {
   const theme = useTheme();
   const isNonMediumScreens = useMediaQuery('(min-width: 1200px)');
+  const isNonMobile = useMediaQuery('(min-width: 600px)');
+
   const { data, isLoading } = useGetDashboardQuery();
 
   const columns = [
@@ -47,7 +48,7 @@ const Dashboard = () => {
   ];
 
   return (
-    <Box m="1.5rem 2.5rem">
+    <Box m="1.5rem 1rem">
       <FlexBetween>
         <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
 
@@ -71,7 +72,7 @@ const Dashboard = () => {
         display="grid"
         gridTemplateColumns="repeat(12, 1fr)"
         gridAutoRows="160px"
-        gap="20px"
+        gap="10px"
         sx={{
           '& > div': { gridColumn: isNonMediumScreens ? undefined : 'span 12' },
         }}>
@@ -154,12 +155,12 @@ const Dashboard = () => {
           gridColumn="span 4"
           gridRow="span 3"
           backgroundColor={theme.palette.background.alt}
-          p="1.5rem"
+          p={isNonMobile ? '1.5rem' : '0px'}
           borderRadius="0.55rem">
           <Typography variant="h6" sx={{ color: theme.palette.secondary[100] }}>
             Sales By Category
           </Typography>
-          <MyResponsiveTreeMap isDashboard={true} />
+          <MyResponsiveTreeMap />
           <Typography p="0 0.6rem" fontSize="0.8rem" sx={{ color: theme.palette.secondary[200] }}>
             Breakdown of real states and information via category for revenue made for this year and
             total sales.

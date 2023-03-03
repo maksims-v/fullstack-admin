@@ -43,7 +43,7 @@ const Performance = () => {
   ];
 
   return (
-    <Box m="1.5rem 2.5rem">
+    <Box m="1.5rem 1rem">
       <Header title="PERFORMANCE" subtitle="Track your Affiliate Sales Performance Here" />
       <Box
         mt="40px"
@@ -73,6 +73,7 @@ const Performance = () => {
           },
         }}>
         <DataGrid
+          sx={{ color: 'white' }}
           loading={isLoading || !data}
           getRowId={(row) => row._id}
           rows={(data && data.sales) || []}

@@ -54,7 +54,7 @@ const Transactions = () => {
   ];
 
   return (
-    <Box m="1.5rem 2.5rem">
+    <Box m="1.5rem 1rem">
       <Header title="TRANSACTIONS" subtitle="Entire list of transactions" />
       <Box
         height="80vh"
@@ -83,6 +83,7 @@ const Transactions = () => {
           },
         }}>
         <DataGrid
+          sx={{ color: 'white' }}
           loading={isLoading || !data}
           getRowId={(row) => row._id}
           rows={(data && data.transactions) || []}

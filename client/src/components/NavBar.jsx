@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { Menu as MenuIcon, Search, ArrowDropDownOutlined } from '@mui/icons-material';
 import FlexBetween from 'components/FlexBetween';
+import Dialog from '@mui/material/Dialog';
+import { Formik } from 'formik';
+import * as yup from 'yup';
+
 import {
   AppBar,
   Toolbar,
@@ -12,15 +16,104 @@ import {
   Menu,
   MenuItem,
   Box,
+  TextField,
 } from '@mui/material';
+import { useGetAuthMutation } from 'state/api';
+
+function SimpleDialog(props) {
+  const [getAuth, { isError }] = useGetAuthMutation();
+
+  const { onClose, selectedValue, open } = props;
+
+  const handleClose = () => {
+    onClose(selectedValue);
+  };
+
+  const handleFormSubmit = async (values, actions) => {
+    console.log(values);
+    await getAuth(values).unwrap();
+    handleClose();
+    actions.setTouched({});
+  };
+
+  return (
+    <Dialog onClose={handleClose} open={open}>
+      <Formik
+        onSubmit={handleFormSubmit}
+        initialValues={initialValues}
+        validationSchema={checkoutSchema[initialValues]}>
+        {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
+            <Box m="30px 0">
+              {/* CONTACT INFO */}
+              <Box sx={{ display: 'flex', flexDirection: 'column', p: 2 }}>
+                <Typography sx={{ mb: '15px' }} fontSize="18px">
+                  Please log in to the account
+                </Typography>
+                <TextField
+                  type="text"
+                  label="Login"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.email}
+                  name="email"
+                  error={!!touched.email && !!errors.email}
+                  helperText={touched.email && errors.email}
+                  sx={{ gridColumn: 'span 4', marginBottom: '15px' }}
+                />
+                <TextField
+                  type="password"
+                  label="Password"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.phoneNumber}
+                  name="password"
+                  error={!!touched.phoneNumber && !!errors.phoneNumber}
+                  helperText={touched.phoneNumber && errors.phoneNumber}
+                  sx={{ gridColumn: 'span 4' }}
+                />
+              </Box>
+            </Box>
+            <Box display="flex" justifyContent="space-between" gap="50px">
+              <Button
+                fullWidth
+                type="submit"
+                color="primary"
+                variant="contained"
+                sx={{
+                  boxShadow: 'none',
+                  color: 'white',
+                  borderRadius: 0,
+                  padding: '15px 40px',
+                }}>
+                Log In
+              </Button>
+            </Box>
+          </form>
+        )}
+      </Formik>
+    </Dialog>
+  );
+}
 
 const NavBar = ({ isSidebarOpen, setIsSidebarOpen, user }) => {
   const theme = useTheme();
+  // const [anchorEl, setAnchorEl] = useState(null);
+  // const isOpen = Boolean(anchorEl);
+  // const handleClick = (event) => setAnchorEl(event.currentTarget);
+  // const handleClose = () => setAnchorEl(null);
 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const isOpen = Boolean(anchorEl);
-  const handleClick = (event) => setAnchorEl(event.currentTarget);
-  const handleClose = () => setAnchorEl(null);
+  const [open, setOpen] = useState(false);
+  const [selectedValue, setSelectedValue] = useState(user.name);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (value) => {
+    setOpen(false);
+    setSelectedValue(value);
+  };
 
   return (
     <AppBar
@@ -48,7 +141,7 @@ const NavBar = ({ isSidebarOpen, setIsSidebarOpen, user }) => {
         <FlexBetween gap="1.5rem">
           <FlexBetween>
             <Button
-              onClick={handleClick}
+              onClick={handleClickOpen}
               sx={{
                 display: 'flex',
                 justifyContent: 'space-between',
@@ -71,18 +164,31 @@ const NavBar = ({ isSidebarOpen, setIsSidebarOpen, user }) => {
                 sx={{ color: theme.palette.secondary[300], fontSize: '25px' }}
               />
             </Button>
-            <Menu
+            {/* <Menu
               anchorEl={anchorEl}
               open={isOpen}
               onClose={handleClose}
               anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
               <MenuItem onClick={handleClose}>Log Out</MenuItem>
-            </Menu>
+            </Menu> */}
+            <SimpleDialog selectedValue={selectedValue} open={open} onClose={handleClose} />
           </FlexBetween>
         </FlexBetween>
       </Toolbar>
     </AppBar>
   );
 };
+
+const initialValues = {
+  email: '',
+  password: '',
+};
+
+const checkoutSchema = [
+  yup.object().shape({
+    email: yup.string().required('required'),
+    password: yup.string().required('required'),
+  }),
+];
 
 export default NavBar;

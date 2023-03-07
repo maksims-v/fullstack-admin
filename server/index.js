@@ -14,7 +14,9 @@ import salesRoutes from './routes/sales.js';
 import authRoutes from './routes/auth.js';
 
 dotenv.config();
+
 const app = express();
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());

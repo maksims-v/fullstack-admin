@@ -1,32 +1,55 @@
 import User from '../models/User.js';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
-export const login = async (req, res, next) => {
+export const register = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    const hash = bcrypt.hashSync(req.body.password, 5);
+    const newUser = new User({
+      ...req.body,
+      password: hash,
+    });
 
-    return res.json(user);
-  } catch (e) {
-    next(e);
+    await newUser.save();
+    res.status(201).send('User was created');
+  } catch (error) {
+    res.status(500).send('Something went wrong!');
   }
 };
 
-export const logout = async (req, res, next) => {
+export const login = async (req, res) => {
+  try {
+    const user = await User.findOne({ name: req.body.name });
+    if (!user) return res.status(404).send('User not found');
+
+    const isCorrect = bcrypt.compareSync(req.body.password, user.password);
+    if (!isCorrect) return res.status(400).send('Wrong password or username');
+
+    const token = jwt.sign(
+      {
+        id: user._id,
+        role: user.role,
+      },
+      process.env.JWT_KEY,
+    );
+
+    const { password, ...info } = user;
+    res
+      .cookie('accessToken', token, {
+        httpOnly: true,
+      })
+      .status(200)
+      .send(info);
+  } catch (error) {
+    res.status(500).send('Something went wrong!');
+  }
+};
+
+export const logout = async (req, res) => {
   try {
     const { refreshToken } = req.cookies;
     const token = await userService.logout(refreshToken);
     res.clearCookie('refreshToken');
     return res.json(token);
-  } catch (e) {
-    next(e);
-  }
-};
-
-export const getUsers = async (req, res, next) => {
-  try {
-    const users = await User.find();
-    return res.status(200).json(users);
-  } catch (e) {
-    next(e);
-  }
+  } catch (e) {}
 };

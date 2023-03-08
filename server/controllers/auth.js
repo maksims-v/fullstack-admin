@@ -20,7 +20,7 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const user = await User.findOne({ name: req.body.name });
-    if (!user) return res.status(404).send('User not found');
+    if (!user) return res.status(404).send(`User not found`);
 
     const isCorrect = bcrypt.compareSync(req.body.password, user.password);
     if (!isCorrect) return res.status(400).send('Wrong password or username');
@@ -33,7 +33,7 @@ export const login = async (req, res) => {
       process.env.JWT_KEY,
     );
 
-    const { password, ...info } = user;
+    const { password, ...info } = user._doc;
     res
       .cookie('accessToken', token, {
         httpOnly: true,
@@ -41,7 +41,7 @@ export const login = async (req, res) => {
       .status(200)
       .send(info);
   } catch (error) {
-    res.status(500).send('Something went wrong!');
+    res.status(500).send(`Something went wrong! ${req}`);
   }
 };
 

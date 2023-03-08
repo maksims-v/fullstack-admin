@@ -18,10 +18,11 @@ import {
   Box,
   TextField,
 } from '@mui/material';
+
 import { useGetAuthMutation } from 'state/api';
 
 function SimpleDialog(props) {
-  const [getAuth, { isError }] = useGetAuthMutation();
+  const [getAuth, response] = useGetAuthMutation();
 
   const { onClose, selectedValue, open } = props;
 
@@ -30,11 +31,12 @@ function SimpleDialog(props) {
   };
 
   const handleFormSubmit = async (values, actions) => {
-    console.log(values);
     await getAuth(values).unwrap();
     handleClose();
     actions.setTouched({});
   };
+
+  console.log(response?.data);
 
   return (
     <Dialog onClose={handleClose} open={open}>
@@ -56,7 +58,7 @@ function SimpleDialog(props) {
                   onBlur={handleBlur}
                   onChange={handleChange}
                   value={values.email}
-                  name="email"
+                  name="name"
                   error={!!touched.email && !!errors.email}
                   helperText={touched.email && errors.email}
                   sx={{ gridColumn: 'span 4', marginBottom: '15px' }}
@@ -180,13 +182,13 @@ const NavBar = ({ isSidebarOpen, setIsSidebarOpen, user }) => {
 };
 
 const initialValues = {
-  email: '',
+  name: '',
   password: '',
 };
 
 const checkoutSchema = [
   yup.object().shape({
-    email: yup.string().required('required'),
+    name: yup.string().required('required'),
     password: yup.string().required('required'),
   }),
 ];

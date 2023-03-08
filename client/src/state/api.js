@@ -57,10 +57,11 @@ export const api = createApi({
       providesTags: ['Dashboard'],
     }),
     getAuth: build.mutation({
-      query: (body) => ({
-        url: '/auth/login',
+      query: (payload) => ({
+        url: 'auth/login',
         method: 'POST',
-        body,
+        body: payload,
+        providesTags: ['Auth'],
       }),
     }),
   }),

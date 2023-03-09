@@ -7,7 +7,13 @@ const initialState = {
 export const globalSlice = createSlice({
   name: 'global',
   initialState,
-  reducers: {},
+  reducers: {
+    setId: (state, action) => {
+      state.userId = action.payload;
+    },
+  },
 });
+
+export const { setId } = globalSlice.actions;
 
 export default globalSlice.reducer;

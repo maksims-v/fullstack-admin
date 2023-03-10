@@ -25,6 +25,12 @@ const NavBar = ({ isSidebarOpen, setIsSidebarOpen, user }) => {
   const [getAuth, response] = useGetAuthMutation();
   const [open, setOpen] = useState(false);
 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const isOpen = Boolean(open);
+
+  const [userName, setUserName] = useState();
+  const [password, setPassword] = useState();
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -33,20 +39,16 @@ const NavBar = ({ isSidebarOpen, setIsSidebarOpen, user }) => {
     setOpen(false);
   };
 
-  useEffect(() => {
-    localStorage.setItem('currentUser', JSON.stringify(response?.data?._id));
-  }, [response?.data?._id]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await getAuth().unwrap();
+    await getAuth({ name: userName, password }).unwrap();
+    localStorage.setItem('accessToken', response.data.accessToken);
+    console.log(response);
     handleClose();
   };
 
-  // const [anchorEl, setAnchorEl] = useState(null);
-  // const isOpen = Boolean(anchorEl);
-  // const handleClick = (event) => setAnchorEl(event.currentTarget);
-  // const handleClose = () => setAnchorEl(null);
+  const handleClick = (event) => setAnchorEl(event.currentTarget);
+  const handleClose2 = () => setAnchorEl(null);
 
   return (
     <AppBar
@@ -97,13 +99,7 @@ const NavBar = ({ isSidebarOpen, setIsSidebarOpen, user }) => {
                 sx={{ color: theme.palette.secondary[300], fontSize: '25px' }}
               />
             </Button>
-            {/* <Menu
-              anchorEl={anchorEl}
-              open={isOpen}
-              onClose={handleClose}
-              anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
-              <MenuItem onClick={handleClose}>Log Out</MenuItem>
-            </Menu> */}
+
             <Dialog onClose={handleClose} open={open}>
               <Box
                 component="form"
@@ -116,12 +112,14 @@ const NavBar = ({ isSidebarOpen, setIsSidebarOpen, user }) => {
                   </Typography>
                 </Box>
                 <TextField
+                  onChange={(e) => setUserName(e.target.value)}
                   id="outlined-basic"
                   label="Name"
                   variant="outlined"
                   sx={{ width: '80%' }}
                 />
                 <TextField
+                  onChange={(e) => setPassword(e.target.value)}
                   id="outlined-basic"
                   label="Password"
                   variant="outlined"
@@ -148,6 +146,7 @@ const NavBar = ({ isSidebarOpen, setIsSidebarOpen, user }) => {
                 </Box>
               </Box>
             </Dialog>
+            {!response?.isUninitialized ? <Button onClick={handleClose2}>Log Out</Button> : null}
           </FlexBetween>
         </FlexBetween>
       </Toolbar>

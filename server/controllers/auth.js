@@ -34,12 +34,12 @@ export const login = async (req, res) => {
     );
 
     const { password, ...info } = user._doc;
-    res
-      .cookie('accessToken', token, {
-        httpOnly: true,
-      })
-      .status(200)
-      .send(info);
+
+    res.cookie('accessToken', `${token}`, {
+      httpOnly: true,
+    });
+    res.status(200);
+    res.send(info);
   } catch (error) {
     res.status(500).send(`Something went wrong! ${req}`);
   }

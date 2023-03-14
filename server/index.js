@@ -15,6 +15,8 @@ import managementRoutes from './routes/management.js';
 import salesRoutes from './routes/sales.js';
 import authRoutes from './routes/auth.js';
 
+import { dataUser } from './data/index.js';
+
 const app = express();
 mongoose.set('strictQuery', true);
 app.use(express.json());

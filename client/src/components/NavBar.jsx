@@ -42,7 +42,7 @@ const NavBar = ({ isSidebarOpen, setIsSidebarOpen, user }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await getAuth({ name: userName, password }).unwrap();
-    localStorage.setItem('accessToken', response.data.accessToken);
+    // localStorage.setItem('accessToken', response.data.accessToken);
     console.log(response);
     handleClose();
   };
